@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grid Management - Pune Smart Grid</title>
+
+    <!-- Dashboard Styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style_dashboard.css') }}">
+
+    <!-- Chart.js (REQUIRED) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+</head>
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1>PUNE SMART GRID</h1>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="dashboard.html" class="active">Dashboard</a>
+                <a href="analysis.html">Analysis</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+
+        <!-- ================= CONTROL PANEL ================= -->
+        <div class="control-panel">
+            <h2>CONTROL PANEL</h2>
+
+            <!-- VIEW MODE (REQUIRED BY JS) -->
+            <div class="control-group">
+                <label>VIEW MODE</label>
+                <label>
+                    <input type="radio" name="view-mode" value="live" checked> Live Grid
+                </label>
+                <label>
+                    <input type="radio" name="view-mode" value="tomorrow"> Tomorrow Forecast
+                </label>
+            </div>
+
+            <div class="control-group">
+                <label for="model-select">SELECT MODEL</label>
+                <select id="model-select">
+                <option value="timegpt">TimeGPT</option>
+                <option value="xgb">XGBoost</option>
+                <option value="rbilstm">RBILSTM</option>
+                <option value="adaptive">Adaptive AI</option>
+                </select>
+
+            </div>
+
+            <div class="control-group">
+                <label for="area-select">SELECT AREA</label>
+                <select id="area-select">
+                    <option value="all">All Pune</option>
+                    <optgroup label="West Pune (IT Hubs)">
+                        <option value="hinjewadi">Hinjewadi</option>
+                        <option value="baner">Baner</option>
+                        <option value="wakad">Wakad</option>
+                        <option value="aundh">Aundh</option>
+                    </optgroup>
+                    <optgroup label="East Pune (IT Parks)">
+                        <option value="kharadi">Kharadi</option>
+                        <option value="hadapsar">Hadapsar</option>
+                        <option value="magarpatta">Magarpatta</option>
+                        <option value="viman_nagar">Viman Nagar</option>
+                    </optgroup>
+                    <optgroup label="North Pune (Industrial)">
+                        <option value="pimpri">Pimpri</option>
+                        <option value="chinchwad">Chinchwad</option>
+                        <option value="bhosari">Bhosari</option>
+                    </optgroup>
+                    <optgroup label="Central & South">
+                        <option value="shivajinagar">Shivajinagar</option>
+                        <option value="camp">Camp</option>
+                        <option value="kondhwa">Kondhwa</option>
+                        <option value="katraj">Katraj</option>
+                    </optgroup>
+                </select>
+            </div>
+
+            <button id="update-btn" class="btn-primary">UPDATE FORECAST</button>
+
+            <div class="info-panel">
+                <h3>CURRENT STATUS</h3>
+                <div class="status-item">
+                    <span class="label">Time:</span>
+                    <span class="value" id="current-time">--:--</span>
+                </div>
+                <div class="status-item">
+                    <span class="label">Area:</span>
+                    <span class="value" id="selected-area">All Pune</span>
+                </div>
+                <div class="status-item">
+                    <span class="label">Model:</span>
+                    <span class="value" id="current-model">—</span>
+                </div>
+                <div class="status-item">
+                    <span class="label">Accuracy:</span>
+                    <span class="value" id="model-accuracy">—</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= MAIN CONTENT ================= -->
+        <div class="main-content">
+
+            <!-- BASIC KPIs -->
+            <div class="stats-row">
+                <div class="stat-card">
+                    <div class="stat-label">CURRENT LOAD</div>
+                    <div class="stat-value" id="current-load">--</div>
+                    <div class="stat-unit">MW</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-label">PEAK LOAD</div>
+                    <div class="stat-value" id="peak-load">--</div>
+                    <div class="stat-unit">MW</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-label">FORECAST ERROR</div>
+                    <div class="stat-value" id="forecast-error">--</div>
+                    <div class="stat-unit">MW</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-label">COST (MONTHLY)</div>
+                    <div class="stat-value" id="monthly-cost">--</div>
+                    <div class="stat-unit">₹ Cr</div>
+                </div>
+            </div>
+
+            <!-- ADAPTIVE KPIs -->
+            <div class="stats-row">
+                <div class="stat-card">
+                    <div class="stat-label">GRID RISK</div>
+                    <div class="stat-value" id="risk-index">--</div>
+                    <div class="stat-unit">%</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-label">ADAPTIVE STORAGE</div>
+                    <div class="stat-value" id="adaptive-storage">--</div>
+                    <div class="stat-unit">MWh</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-label">ADAPTIVE SHEDDING</div>
+                    <div class="stat-value" id="adaptive-shedding">--</div>
+                    <div class="stat-unit">MW</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-label">GRID STATUS</div>
+                    <div class="stat-value" id="grid-status">--</div>
+                </div>
+            </div>
+
+            <!-- LOAD FORECAST CHART -->
+            <div class="chart-section">
+                <h3>24-HOUR LOAD FORECAST</h3>
+                <canvas id="loadChart"></canvas>
+            </div>
+
+            <!-- STRESS CHART -->
+            <div class="chart-section">
+                <h3>STATIC VS ADAPTIVE GRID STRESS</h3>
+                <canvas id="stressChart"></canvas>
+            </div>
+
+            <!-- HOURLY TABLE -->
+            <div class="data-section">
+                <h3>HOURLY BREAKDOWN</h3>
+                <div class="table-container">
+                    <table id="hourly-table">
+                        <thead>
+                            <tr>
+                                <th>HOUR</th>
+                                <th>PREDICTED LOAD (MW)</th>
+                                <th>STATUS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+                            <tr>
+                                <td colspan="3">Click UPDATE to load data</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ================= JS ================= -->
+    <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+
+</body>
+</html>

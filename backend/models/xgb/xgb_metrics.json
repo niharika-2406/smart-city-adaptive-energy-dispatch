@@ -1,0 +1,15 @@
+{
+  "rmse": 7.3012973169030415,
+  "mae": 2.601096667902765,
+  "r2": 0.9997914446216492,
+  "mape_pct": 0.17883257496746865,
+  "best_params": {
+    "model__subsample": 0.6,
+    "model__reg_lambda": 2,
+    "model__reg_alpha": 0,
+    "model__n_estimators": 200,
+    "model__max_depth": 4,
+    "model__learning_rate": 0.05,
+    "model__colsample_bytree": 1.0
+  }
+}
