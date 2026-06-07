@@ -40,6 +40,15 @@ This repository contains the core application and supporting scripts for adaptiv
    ```
 4. Open the dashboard in your browser at `http://127.0.0.1:5000`.
 
+## Publication
+
+This project is associated with a published paper on adaptive energy dispatch and extreme-event forecasting for smart cities.
+
+- Paper title: *[Insert your publication title here]*
+- Authors: *[Insert author list]*
+- Venue: *[Insert conference/journal name]*
+- DOI / link: *[Insert DOI or publication URL]*
+
 ## Recommended GitHub Repository Name
 
 `smart-city-adaptive-energy-dispatch`
