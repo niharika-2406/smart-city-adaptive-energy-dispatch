@@ -42,12 +42,18 @@ This repository contains the core application and supporting scripts for adaptiv
 
 ## Publication
 
-This project is associated with a published paper on adaptive energy dispatch and extreme-event forecasting for smart cities.
+This project is based on the published abstract:
 
-- Paper title: *[Insert your publication title here]*
-- Authors: *[Insert author list]*
-- Venue: *[Insert conference/journal name]*
-- DOI / link: *[Insert DOI or publication URL]*
+- Title: *AI-Based Load Forecasting and Adaptive Compensation Model*
+- Authors: Niharika Kalane, Tanish Kadam, Sahebrao Bhalshankar, Kalyani Karmarkar, Krishna Kakade, Krish Kalantri
+- Affiliation: Department of Artificial Intelligence and Machine Learning, Vishwakarma Institute of Technology, Pune, Maharashtra
+- Published in: *Book of Abstracts, International Conference on Strategic Agility and Resilience: Best Practices in Technology and Management for a Digital Era (ICSAR 2026)*
+- Conference date: 16th–17th April 2026
+- Publisher: Enas Publications
+
+### Abstract summary
+
+The paper presents an AI-based day-ahead load forecasting method combined with risk-index-based decision logic for smart grid demand management. It uses energy demand, traffic, environmental, and storage features, applies a zone-wise rule-based disaggregation, and performs compensation via battery storage and controlled load shedding. A Flask-based dashboard is provided for visualization and decision analysis.
 
 ## Recommended GitHub Repository Name
 
